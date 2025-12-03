@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yourdockerhubusername/sample-web-app"  // Update with your DockerHub username
+        IMAGE_NAME = "sample-web-app"  // Update with your DockerHub username
         IMAGE_TAG = "latest"
     }
 
@@ -66,3 +66,4 @@ pipeline {
         }
     }
 }
+
