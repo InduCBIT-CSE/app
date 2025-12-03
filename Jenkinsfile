@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Checkout the code from GitHub repository using the updated credentials
                 git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/InduCBIT-CSE/app.git'
             }
         }
@@ -43,4 +42,5 @@ pipeline {
         }
     }
 }
+
 
