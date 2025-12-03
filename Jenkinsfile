@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "sample-web-app"  // Local image name, no need for DockerHub
+        IMAGE_NAME = "sample-web-app" 
         IMAGE_TAG = "latest"
     }
 
@@ -17,7 +17,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image from the Dockerfile
                     sh """
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                     """
@@ -28,7 +27,6 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // Run the Docker container to test the app
                     sh """
                         docker run -d --name test-app -p 5000:5000 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
@@ -39,10 +37,10 @@ pipeline {
 
     post {
         always {
-            // Cleanup the container after the job is finished
             echo "Cleaning up..."
             sh "docker stop test-app || true"
             sh "docker rm test-app || true"
         }
     }
 }
+
