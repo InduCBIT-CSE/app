@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "sample-web-app"  // Update with your DockerHub username
+        IMAGE_NAME = "sample-web-app"  // Local image name, no need for DockerHub
         IMAGE_TAG = "latest"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Checkout the code from GitHub repository using credentials
-                git credentialsId: 'github-credentials', url: 'https://github.com/InduCBIT-CSE/app.git'
+                // Checkout the code from GitHub repository using the updated credentials
+                git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/InduCBIT-CSE/app.git'
             }
         }
 
@@ -20,26 +20,6 @@ pipeline {
                     // Build Docker image from the Dockerfile
                     sh """
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
-                    """
-                }
-            }
-        }
-
-        stage('Docker Login') {
-            steps {
-                script {
-                    // Docker login using credentials (ensure DOCKER_USERNAME and DOCKER_PASSWORD are set as environment variables in Jenkins)
-                    sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-                }
-            }
-        }
-
-        stage('Push Image to DockerHub') {
-            steps {
-                script {
-                    // Push the Docker image to DockerHub (optional)
-                    sh """
-                        docker push ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -66,4 +46,3 @@ pipeline {
         }
     }
 }
-
